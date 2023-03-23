@@ -1,33 +1,33 @@
 import { model, Schema } from 'mongoose';
 
-export const Order  = model('Order', new Schema({
-  table: {
-    type: String,
-    required: true
-  },
+export const Order = model('Order', new Schema({
   status: {
     type: String,
-    enum: ['WAITING', 'IN_PRODUCTION', 'DONE'],
-    default: 'WAITING',
+    enum: ['WAITING', 'IN_PRODUCTION', 'DONE', 'CANCELED'],
+    default: 'WAITING'
+  },
+  payment: {
+    type: String,
+    enum: ['Pix', 'Card', 'Cash'],
+    default: 'Cash',
     required: true
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  products: {
+  items: {
+    required: true,
     type: [{
-      product: {
+      item: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'Product'
+        ref: 'Item',
       },
       quantity: {
         type: Number,
-        required: true,
         default: 1
-      },
-    }],
-    required: true
+      }
+    }]
   }
 }));
